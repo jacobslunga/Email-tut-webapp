@@ -2,12 +2,15 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { FiSend } from "react-icons/fi";
 import { HiOutlineMail } from "react-icons/hi";
+import SuccessModal from "../components/SuccessModal";
 
 function Home() {
   const [data, setData] = useState([]);
   const [email, setEmail] = useState("");
 
   const [isFocus, setIsFocus] = useState(false);
+
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   useEffect(() => {
     axios.get("http://localhost:5001/api/get_emails").then((res) => {
@@ -21,17 +24,10 @@ function Home() {
       .post("http://localhost:5001/api/submit_email", { email })
       .then((res) => {
         console.log("It worked with data: ", res);
+        setShowSuccessModal(true);
       })
       .catch((e) => console.log("Error: ", e));
   };
-
-  window.addEventListener("keydown", async function (e) {
-    if (email.includes("@")) {
-      if (e.key === "Enter") {
-        await submit_email();
-      }
-    }
-  });
 
   return (
     <form
@@ -78,6 +74,7 @@ function Home() {
       <a href="/waiting-list" className="text-blue-500">
         Check waiting list
       </a>
+      {showSuccessModal && <SuccessModal setIsOpen={setShowSuccessModal} />}
     </form>
   );
 }

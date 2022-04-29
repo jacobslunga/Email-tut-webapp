@@ -17,23 +17,29 @@ function WaitingList() {
       </h1>
       <div
         className={`w-10/12 md:w-1/2 relative flex-grow-1 h-4/5 shadow-lg border-2 border-gray-100 rounded-md flex flex-col items-center ${
-          data ? "justify-start" : "justify-center"
+          data && data.length > 0 ? "justify-start" : "justify-center"
         } z-30 overflow-auto`}
       >
         {data ? (
           <>
-            {data.map((email, index) => (
-              <div
-                key={email.email + String(index)}
-                className="w-full pl-5 mt-5 mb-5 relative"
-                style={{
-                  borderBottomWidth: 0.3,
-                  borderBottomColor: "rgba(0,0,0,0.2)",
-                }}
-              >
-                <h1 className="font-medium">{email.email}</h1>
-              </div>
-            ))}
+            {data.length > 0 ? (
+              <>
+                {data.reverse().map((email, index) => (
+                  <div
+                    key={email.email + String(index)}
+                    className="w-full pl-5 mt-5 mb-5 relative"
+                    style={{
+                      borderBottomWidth: 0.3,
+                      borderBottomColor: "rgba(0,0,0,0.2)",
+                    }}
+                  >
+                    <h1 className="font-medium">{email.email}</h1>
+                  </div>
+                ))}
+              </>
+            ) : (
+              <p className="text-blue-500 text-lg">No emails yet</p>
+            )}
           </>
         ) : (
           <p className="text-blue-400">Loading...</p>
